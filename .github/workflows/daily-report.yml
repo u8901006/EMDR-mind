@@ -20,25 +20,26 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           fetch-depth: 0
 
       - name: Setup Node.js 24
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: "24"
 
       - name: Determine date
         id: date
         run: |
-          if [ -n "${{ github.event.inputs.date }}" ]; then
-            echo "target=${{ github.event.inputs.date }}" >> $GITHUB_OUTPUT
+          INPUT_DATE="${{ github.event.inputs.date }}"
+          if echo "$INPUT_DATE" | grep -qE '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'; then
+            TARGET="$INPUT_DATE"
           else
             TARGET=$(TZ=Asia/Taipei date +%Y-%m-%d)
-            echo "target=$TARGET" >> $GITHUB_OUTPUT
           fi
-          echo "Date: $(cat $GITHUB_OUTPUT | grep target | cut -d= -f2)"
+          echo "target=$TARGET" >> "$GITHUB_OUTPUT"
+          echo "Date: $TARGET"
 
       - name: Fetch EMDR papers from multiple sources
         run: node scripts/fetch_papers.mjs --days 14 --max-papers 120 --output papers.json
@@ -47,13 +48,14 @@ jobs:
       - name: Check papers data
         id: papers
         run: |
+          TARGET="${{ steps.date.outputs.target }}"
           if [ -f papers.json ] && grep -q '"count"' papers.json; then
             COUNT=$(node -e "const d=require('./papers.json');console.log(d.count||0)")
-            echo "count=$COUNT" >> $GITHUB_OUTPUT
+            echo "count=$COUNT" >> "$GITHUB_OUTPUT"
             echo "Papers found: $COUNT"
           else
-            echo "count=0" >> $GITHUB_OUTPUT
-            echo '{"date":"${{ steps.date.outputs.target }}","count":0,"papers":[]}' > papers.json
+            echo "count=0" >> "$GITHUB_OUTPUT"
+            echo "{\"date\":\"$TARGET\",\"count\":0,\"papers\":[]}" > papers.json
             echo "No papers found, will generate empty report"
           fi
 
@@ -61,9 +63,10 @@ jobs:
         env:
           ZHIPU_API_KEY: ${{ secrets.ZHIPU_API_KEY }}
         run: |
+          TARGET="${{ steps.date.outputs.target }}"
           node scripts/generate_report.mjs \
             --input papers.json \
-            --output docs/emdr-${{ steps.date.outputs.target }}.html \
+            --output "docs/emdr-${TARGET}.html" \
             --api-key "$ZHIPU_API_KEY"
 
       - name: Generate index page
@@ -71,17 +74,20 @@ jobs:
 
       - name: Commit and push
         run: |
+          TARGET="${{ steps.date.outputs.target }}"
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add docs/
           git diff --cached --quiet && echo "No changes to commit" && exit 0
-          git commit -m "📄 EMDR daily report: ${{ steps.date.outputs.target }}"
+          git commit -m "EMDR daily report: ${TARGET}"
           git pull --rebase origin main
           git push
 
       - name: Summary
         run: |
-          echo "### 📄 EMDR Daily Report" >> $GITHUB_STEP_SUMMARY
-          echo "**Date:** ${{ steps.date.outputs.target }}" >> $GITHUB_STEP_SUMMARY
-          echo "**Papers analyzed:** ${{ steps.papers.outputs.count }}" >> $GITHUB_STEP_SUMMARY
-          echo "**Report:** [emdr-${{ steps.date.outputs.target }}.html](https://u8901006.github.io/EMDR-mind/emdr-${{ steps.date.outputs.target }}.html)" >> $GITHUB_STEP_SUMMARY
+          TARGET="${{ steps.date.outputs.target }}"
+          COUNT="${{ steps.papers.outputs.count }}"
+          echo "### EMDR Daily Report" >> "$GITHUB_STEP_SUMMARY"
+          echo "**Date:** ${TARGET}" >> "$GITHUB_STEP_SUMMARY"
+          echo "**Papers analyzed:** ${COUNT}" >> "$GITHUB_STEP_SUMMARY"
+          echo "**Report:** [emdr-${TARGET}.html](https://u8901006.github.io/EMDR-mind/emdr-${TARGET}.html)" >> "$GITHUB_STEP_SUMMARY"
