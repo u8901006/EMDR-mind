@@ -16,7 +16,7 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
 
     steps:
       - name: Checkout
@@ -40,8 +40,8 @@ jobs:
           fi
           echo "Date: $(cat $GITHUB_OUTPUT | grep target | cut -d= -f2)"
 
-      - name: Fetch EMDR papers from PubMed
-        run: node scripts/fetch_papers.mjs --days 7 --max-papers 60 --output papers.json
+      - name: Fetch EMDR papers from multiple sources
+        run: node scripts/fetch_papers.mjs --days 14 --max-papers 120 --output papers.json
         continue-on-error: true
 
       - name: Check papers data

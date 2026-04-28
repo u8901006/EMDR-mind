@@ -11,10 +11,13 @@ const MAX_TOKENS = 100000;
 const TIMEOUT_MS = 660000;
 
 const SYSTEM_PROMPT = `你是 EMDR（眼動減敏與重建）及創傷心理學領域的資深研究員與科學傳播者。你的任務是：
-1. 從提供的醫學文獻中，篩選出最具臨床意義與研究價值的 EMDR 相關論文
+1. 從提供的醫學文獻中，篩選出最具臨床意義與研究價值的 EMDR 與創傷治療相關論文
 2. 對每篇論文進行繁體中文摘要、分類、PICO 分析
 3. 評估其臨床實用性（高/中/低）
 4. 生成適合醫療專業人員閱讀的日報
+
+文獻來源可能包含 PubMed、Europe PMC、Crossref、Semantic Scholar 等多個學術資料庫。
+除了嚴格的 EMDR 論文外，也請關注廣義創傷治療（trauma-focused therapy）領域的重要研究。
 
 輸出格式要求：
 - 語言：繁體中文（台灣用語）
@@ -87,7 +90,7 @@ async function callZhipuAPI(apiKey, papersData) {
   const paperCount = papersData.count || 0;
   const papersText = JSON.stringify(papersData.papers || [], null, 2);
 
-  const prompt = `以下是 ${dateStr} 從 PubMed 抓取的最新 EMDR 相關文獻（共 ${paperCount} 篇）。
+  const prompt = `以下是 ${dateStr} 從多個學術資料庫（PubMed、Europe PMC、Crossref、Semantic Scholar）抓取的最新 EMDR 與創傷治療相關文獻（共 ${paperCount} 篇）。
 
 請進行以下分析，並以 JSON 格式回傳（不要用 markdown code block）：
 
@@ -231,6 +234,8 @@ function generateHtml(analysis) {
     const tagsHtml = (pick.tags || []).map((t) => `<span class="tag">${t}</span>`).join("");
     const util = pick.clinical_utility || "中";
     const utilityClass = util === "高" ? "utility-high" : util === "中" ? "utility-mid" : "utility-low";
+    const source = pick.source || "";
+    const sourceBadge = source ? `<span class="source-badge">${source}</span>` : "";
     const pico = pick.pico || {};
     const picoHtml = pico.population ? `
       <div class="pico-grid">
@@ -241,11 +246,12 @@ function generateHtml(analysis) {
       </div>` : "";
 
     topPicksHtml += `
-    <div class="news-card featured" data-pmid="${pick.pmid || ""}">
+    <div class="news-card featured" data-pmid="${pick.pmid || ""}" data-doi="${pick.doi || ""}">
       <div class="card-header">
         <span class="rank-badge">#${pick.rank || ""}</span>
         <span class="emoji-icon">${pick.emoji || "📄"}</span>
         <span class="${utilityClass}">${util}實用性</span>
+        ${sourceBadge}
       </div>
       <h3>${pick.title_zh || pick.title_en || ""}</h3>
       <p class="journal-source">${pick.journal || ""} · ${pick.title_en || ""}</p>
@@ -263,18 +269,21 @@ function generateHtml(analysis) {
     const tagsHtml = (paper.tags || []).map((t) => `<span class="tag">${t}</span>`).join("");
     const util = paper.clinical_utility || "中";
     const utilityClass = util === "高" ? "utility-high" : util === "中" ? "utility-mid" : "utility-low";
+    const source = paper.source || "";
+    const sourceBadge = source ? `<span class="source-badge">${source}</span>` : "";
     allPapersHtml += `
-    <div class="news-card" data-pmid="${paper.pmid || ""}">
+    <div class="news-card" data-pmid="${paper.pmid || ""}" data-doi="${paper.doi || ""}">
       <div class="card-header-row">
         <span class="emoji-sm">${paper.emoji || "📄"}</span>
         <span class="${utilityClass} utility-sm">${util}</span>
+        ${sourceBadge}
       </div>
       <h3>${paper.title_zh || paper.title_en || ""}</h3>
       <p class="journal-source">${paper.journal || ""}</p>
       <p>${paper.summary || ""}</p>
       <div class="card-footer">
         ${tagsHtml}
-        <a href="${paper.url || "#"}" target="_blank">PubMed →</a>
+        <a href="${paper.url || "#"}" target="_blank">閱讀原文 →</a>
       </div>
     </div>`;
   }
@@ -300,7 +309,7 @@ function generateHtml(analysis) {
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>EMDR Mind · EMDR 文獻日報 · ${dateDisplay}</title>
-<meta name="description" content="${dateDisplay} EMDR 文獻日報，由 AI 自動彙整 PubMed 最新 EMDR 論文"/>
+<meta name="description" content="${dateDisplay} EMDR 文獻日報，由 AI 自動彙整 PubMed、Europe PMC、Crossref、Semantic Scholar 最新 EMDR 與創傷治療論文"/>
 <style>
   :root { --bg: #f6f1e8; --surface: #fffaf2; --line: #d8c5ab; --text: #2b2118; --muted: #766453; --accent: #8c4f2b; --accent-soft: #ead2bf; --card-bg: color-mix(in srgb, var(--surface) 92%, white); }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -340,6 +349,7 @@ function generateHtml(analysis) {
   .utility-mid { color: #9f7a2e; font-size: 11px; font-weight: 600; padding: 2px 8px; background: rgba(159,122,46,0.1); border-radius: 4px; }
   .utility-low { color: var(--muted); font-size: 11px; font-weight: 600; padding: 2px 8px; background: rgba(118,100,83,0.08); border-radius: 4px; }
   .utility-sm { font-size: 10px; }
+  .source-badge { font-size: 10px; color: var(--muted); background: rgba(118,100,83,0.06); padding: 1px 7px; border-radius: 4px; border: 1px solid var(--line); }
   .pico-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; padding: 12px; background: rgba(255,253,249,0.8); border-radius: 14px; border: 1px solid var(--line); }
   .pico-item { display: flex; gap: 8px; align-items: baseline; }
   .pico-label { font-size: 10px; font-weight: 700; color: #fff7f0; background: var(--accent); padding: 2px 6px; border-radius: 4px; flex-shrink: 0; }
@@ -378,7 +388,7 @@ function generateHtml(analysis) {
       <div class="header-meta">
         <span class="badge badge-date">📅 ${dateDisplay}</span>
         <span class="badge badge-count">📊 ${totalCount} 篇文獻</span>
-        <span class="badge badge-source">Powered by PubMed + Zhipu AI</span>
+        <span class="badge badge-source">Powered by Multi-Source + Zhipu AI</span>
       </div>
     </div>
   </header>
@@ -417,7 +427,7 @@ function generateHtml(analysis) {
   </div>
 
   <footer>
-    <span>資料來源：PubMed · 分析模型：${MODELS[0]}</span>
+    <span>資料來源：PubMed + Europe PMC + Crossref + Semantic Scholar · 分析模型：${MODELS[0]}</span>
     <span><a href="https://github.com/u8901006/EMDR-mind">GitHub</a></span>
   </footer>
 </div>
@@ -446,7 +456,7 @@ async function main() {
     console.error("[WARN] No papers found, generating empty report");
     analysis = {
       date: papersData?.date || new Date().toISOString().split("T")[0],
-      market_summary: "今日 PubMed 暫無新的 EMDR 相關文獻更新。請明天再查看。",
+      market_summary: "今日各學術資料庫暫無新的 EMDR 與創傷治療相關文獻更新。請明天再查看。",
       top_picks: [],
       all_papers: [],
       keywords: [],
