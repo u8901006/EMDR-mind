@@ -10,6 +10,7 @@ on:
         required: false
         default: ""
 
+# Minimum permissions required for the workflow
 permissions:
   contents: write
 
