@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>EMDR Mind · EMDR 文獻日報 · 2026年5月23日</title>
+<meta name="description" content="2026年5月23日 EMDR 文獻日報，由 AI 自動彙整 PubMed、Europe PMC、Crossref、Semantic Scholar 最新 EMDR 與創傷治療論文"/>
+<style>
+  :root { --bg: #f6f1e8; --surface: #fffaf2; --line: #d8c5ab; --text: #2b2118; --muted: #766453; --accent: #8c4f2b; --accent-soft: #ead2bf; --card-bg: color-mix(in srgb, var(--surface) 92%, white); }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: radial-gradient(circle at top, #fff6ea 0, var(--bg) 55%, #ead8c6 100%); color: var(--text); font-family: "Noto Sans TC", "PingFang TC", "Helvetica Neue", Arial, sans-serif; min-height: 100vh; overflow-x: hidden; }
+  .container { position: relative; z-index: 1; max-width: 880px; margin: 0 auto; padding: 60px 32px 80px; }
+  header { display: flex; align-items: center; gap: 16px; margin-bottom: 52px; animation: fadeDown 0.6s ease both; }
+  .logo { width: 48px; height: 48px; border-radius: 14px; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; box-shadow: 0 4px 20px rgba(140,79,43,0.25); }
+  .header-text h1 { font-size: 22px; font-weight: 700; color: var(--text); letter-spacing: -0.3px; }
+  .header-meta { display: flex; gap: 8px; margin-top: 6px; flex-wrap: wrap; align-items: center; }
+  .badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11px; letter-spacing: 0.3px; }
+  .badge-date { background: var(--accent-soft); border: 1px solid var(--line); color: var(--accent); }
+  .badge-count { background: rgba(140,79,43,0.06); border: 1px solid var(--line); color: var(--muted); }
+  .badge-source { background: transparent; color: var(--muted); font-size: 11px; padding: 0 4px; }
+  .summary-card { background: var(--card-bg); border: 1px solid var(--line); border-radius: 24px; padding: 28px 32px; margin-bottom: 32px; box-shadow: 0 20px 60px rgba(61,36,15,0.06); animation: fadeUp 0.5s ease 0.1s both; }
+  .summary-card h2 { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.6px; color: var(--accent); margin-bottom: 16px; }
+  .summary-text { font-size: 15px; line-height: 1.8; color: var(--text); }
+  .section { margin-bottom: 36px; animation: fadeUp 0.5s ease both; }
+  .section-title { display: flex; align-items: center; gap: 10px; font-size: 17px; font-weight: 700; color: var(--text); margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
+  .section-icon { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; background: var(--accent-soft); }
+  .news-card { background: var(--card-bg); border: 1px solid var(--line); border-radius: 24px; padding: 22px 26px; margin-bottom: 12px; box-shadow: 0 8px 30px rgba(61,36,15,0.04); transition: background 0.2s, border-color 0.2s, transform 0.2s; }
+  .news-card:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(61,36,15,0.08); }
+  .news-card.featured { border-left: 3px solid var(--accent); }
+  .news-card.featured:hover { border-color: var(--accent); }
+  .card-header { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+  .rank-badge { background: var(--accent); color: #fff7f0; font-weight: 700; font-size: 12px; padding: 2px 8px; border-radius: 6px; }
+  .emoji-icon { font-size: 18px; }
+  .card-header-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .emoji-sm { font-size: 14px; }
+  .news-card h3 { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 8px; line-height: 1.5; }
+  .journal-source { font-size: 12px; color: var(--accent); margin-bottom: 8px; opacity: 0.8; }
+  .news-card p { font-size: 13.5px; line-height: 1.75; color: var(--muted); }
+  .card-footer { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .tag { padding: 2px 9px; background: var(--accent-soft); border-radius: 999px; font-size: 11px; color: var(--accent); }
+  .news-card a { font-size: 12px; color: var(--accent); text-decoration: none; opacity: 0.7; margin-left: auto; }
+  .news-card a:hover { opacity: 1; }
+  .utility-high { color: #5a7a3a; font-size: 11px; font-weight: 600; padding: 2px 8px; background: rgba(90,122,58,0.1); border-radius: 4px; }
+  .utility-mid { color: #9f7a2e; font-size: 11px; font-weight: 600; padding: 2px 8px; background: rgba(159,122,46,0.1); border-radius: 4px; }
+  .utility-low { color: var(--muted); font-size: 11px; font-weight: 600; padding: 2px 8px; background: rgba(118,100,83,0.08); border-radius: 4px; }
+  .utility-sm { font-size: 10px; }
+  .source-badge { font-size: 10px; color: var(--muted); background: rgba(118,100,83,0.06); padding: 1px 7px; border-radius: 4px; border: 1px solid var(--line); }
+  .pico-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; padding: 12px; background: rgba(255,253,249,0.8); border-radius: 14px; border: 1px solid var(--line); }
+  .pico-item { display: flex; gap: 8px; align-items: baseline; }
+  .pico-label { font-size: 10px; font-weight: 700; color: #fff7f0; background: var(--accent); padding: 2px 6px; border-radius: 4px; flex-shrink: 0; }
+  .pico-text { font-size: 12px; color: var(--muted); line-height: 1.4; }
+  .keywords-section { margin-bottom: 36px; }
+  .keywords { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+  .keyword { padding: 5px 14px; background: var(--accent-soft); border: 1px solid var(--line); border-radius: 20px; font-size: 12px; color: var(--accent); cursor: default; transition: background 0.2s; }
+  .keyword:hover { background: rgba(140,79,43,0.18); }
+  .topic-section { margin-bottom: 36px; }
+  .topic-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .topic-name { font-size: 13px; color: var(--muted); width: 100px; flex-shrink: 0; text-align: right; }
+  .topic-bar-bg { flex: 1; height: 8px; background: var(--line); border-radius: 4px; overflow: hidden; }
+  .topic-bar { height: 100%; background: linear-gradient(90deg, var(--accent), #c47a4a); border-radius: 4px; transition: width 0.6s ease; }
+  .topic-count { font-size: 12px; color: var(--accent); width: 24px; }
+  .clinic-banner { margin-top: 48px; animation: fadeUp 0.5s ease 0.4s both; }
+  .clinic-links { display: flex; flex-direction: column; gap: 12px; }
+  .clinic-link { display: flex; align-items: center; gap: 14px; padding: 18px 24px; background: var(--card-bg); border: 1px solid var(--line); border-radius: 24px; text-decoration: none; color: var(--text); transition: all 0.2s; box-shadow: 0 8px 30px rgba(61,36,15,0.04); }
+  .clinic-link:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 12px 40px rgba(61,36,15,0.08); }
+  .clinic-icon { font-size: 28px; flex-shrink: 0; }
+  .clinic-name { font-size: 15px; font-weight: 700; color: var(--text); flex: 1; }
+  .clinic-arrow { font-size: 18px; color: var(--accent); font-weight: 700; }
+  footer { margin-top: 32px; padding-top: 22px; border-top: 1px solid var(--line); font-size: 11.5px; color: var(--muted); display: flex; justify-content: space-between; animation: fadeUp 0.5s ease 0.5s both; }
+  footer a { color: var(--muted); text-decoration: none; }
+  footer a:hover { color: var(--accent); }
+  @keyframes fadeDown { from { opacity: 0; transform: translateY(-16px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+  @media (max-width: 600px) { .container { padding: 36px 18px 60px; } .summary-card, .news-card { padding: 20px 18px; } .pico-grid { grid-template-columns: 1fr; } footer { flex-direction: column; gap: 6px; text-align: center; } .topic-name { width: 70px; font-size: 11px; } .clinic-links { flex-direction: column; } }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="logo">👁️</div>
+    <div class="header-text">
+      <h1>EMDR Mind · EMDR 文獻日報</h1>
+      <div class="header-meta">
+        <span class="badge badge-date">📅 2026年5月23日</span>
+        <span class="badge badge-count">📊 49 篇文獻</span>
+        <span class="badge badge-source">Powered by Multi-Source + Zhipu AI</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="summary-card">
+    <h2>📋 今日文獻趨勢</h2>
+    <p class="summary-text">今日文獻顯示EMDR療效研究更加精細化，聚焦於共病（如SUD、人格疾患）、特殊群體（如產後創傷、難民）及作用機制（神經免疫假說），並強化群體與個別治療模式的比較證據，臨床應用範疇持續擴張。</p>
+  </div>
+
+  <div class="section"><div class="section-title"><span class="section-icon">⭐</span>今日精選 TOP Picks</div>
+    <div class="news-card featured" data-pmid="41520983" data-doi="">
+      <div class="card-header">
+        <span class="rank-badge">#1</span>
+        <span class="emoji-icon">🧠</span>
+        <span class="utility-high">高實用性</span>
+        
+      </div>
+      <h3>創傷後壓力症併物質使用障礙患者之PTSD治療時機與類型比較：一項隨機對照試驗</h3>
+      <p class="journal-source"> · Timing and type of posttraumatic stress disorder treatment in patients with co-occurring substance use disorder and posttraumatic stress disorder - A randomized controlled trial.</p>
+      <p>研究發現，對於共病PTSD與物質使用障礙的患者，同時進行SUD與PTSD治療在短期內效果優於循序治療，而EMDR、延長暴露與意象重編等三種創傷導向療法的整體療效無顯著差異。</p>
+      
+      <div class="pico-grid">
+        <div class="pico-item"><span class="pico-label">P</span><span class="pico-text">共病PTSD與物質使用障礙之成年患者</span></div>
+        <div class="pico-item"><span class="pico-label">I</span><span class="pico-text">同時進行SUD+PTSD治療（包括EMDR、PE、ImRs）</span></div>
+        <div class="pico-item"><span class="pico-label">C</span><span class="pico-text">循序進行SUD與PTSD治療（先治療SUD，再治療PTSD）</span></div>
+        <div class="pico-item"><span class="pico-label">O</span><span class="pico-text">主要結果為臨床評估之PTSD症狀嚴重度；次要結果包括治療完成率與SUD嚴重度</span></div>
+      </div>
+      <div class="card-footer">
+        <span class="tag">PTSD</span><span class="tag">EMDR</span><span class="tag">隨機對照試驗</span><span class="tag">成癮</span>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/41520983/" target="_blank">閱讀原文 →</a>
+      </div>
+    </div>
+    <div class="news-card featured" data-pmid="42129972" data-doi="">
+      <div class="card-header">
+        <span class="rank-badge">#2</span>
+        <span class="emoji-icon">👥</span>
+        <span class="utility-high">高實用性</span>
+        
+      </div>
+      <h3>群體創傷事件方案對PTSD是否有效？一項後設分析</h3>
+      <p class="journal-source"> · Is the Group Traumatic Episode Protocol (G-TEP) Effective for Post-Traumatic Stress Disorder? A Meta-Analysis.</p>
+      <p>後設分析結果顯示，G-TEP在降低PTSD症狀方面具有大效果量，支持其作為集體創傷後高效且有效的介入選項。</p>
+      
+      <div class="pico-grid">
+        <div class="pico-item"><span class="pico-label">P</span><span class="pico-text">經歷集體創傷的個體（如自然災害、戰爭、流行病受害者）</span></div>
+        <div class="pico-item"><span class="pico-label">I</span><span class="pico-text">基於EMDR的群體創傷事件方案</span></div>
+        <div class="pico-item"><span class="pico-label">C</span><span class="pico-text">未指明具體對照組（多為前後比較或等待名單對照）</span></div>
+        <div class="pico-item"><span class="pico-label">O</span><span class="pico-text">PTSD症狀嚴重度的改變</span></div>
+      </div>
+      <div class="card-footer">
+        <span class="tag">EMDR</span><span class="tag">PTSD</span><span class="tag">系統性回顧</span><span class="tag">災難心理健康</span><span class="tag">社區心理衛生</span>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/42129972/" target="_blank">閱讀原文 →</a>
+      </div>
+    </div>
+    <div class="news-card featured" data-pmid="40716437" data-doi="">
+      <div class="card-header">
+        <span class="rank-badge">#3</span>
+        <span class="emoji-icon">🧩</span>
+        <span class="utility-high">高實用性</span>
+        
+      </div>
+      <h3>EMDR療法對人格障礙患者PTSD症狀與診斷狀態的療效：一項隨機對照試驗</h3>
+      <p class="journal-source"> · The Effectiveness of Eye Movement Desensitization and Reprocessing Therapy on Post-Traumatic Stress Disorder Symptoms and Diagnostic Status in Patients with a Personality Disorder: A Randomized Controlled Trial.</p>
+      <p>研究表明，無論患者基線是否有PTSD診斷，EMDR都能有效降低人格障礙患者的PTSD症狀，且對未達PTSD診斷準則的不良事件記憶亦有療效。</p>
+      
+      <div class="pico-grid">
+        <div class="pico-item"><span class="pico-label">P</span><span class="pico-text">患有人格障礙的成人患者</span></div>
+        <div class="pico-item"><span class="pico-label">I</span><span class="pico-text">EMDR療法</span></div>
+        <div class="pico-item"><span class="pico-label">C</span><span class="pico-text">等待名單對照組</span></div>
+        <div class="pico-item"><span class="pico-label">O</span><span class="pico-text">PTSD症狀嚴重度與PTSD診斷狀態的改變；對各類記憶的影響</span></div>
+      </div>
+      <div class="card-footer">
+        <span class="tag">EMDR</span><span class="tag">PTSD</span><span class="tag">隨機對照試驗</span><span class="tag">邊緣性人格障礙</span>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/40716437/" target="_blank">閱讀原文 →</a>
+      </div>
+    </div>
+    <div class="news-card featured" data-pmid="41788970" data-doi="">
+      <div class="card-header">
+        <span class="rank-badge">#4</span>
+        <span class="emoji-icon">🔬</span>
+        <span class="utility-mid">中實用性</span>
+        
+      </div>
+      <h3>雙側節律刺激作為調節腦膜淋巴流的潛在機制：一個以調節性T細胞為中心的EMDR神經免疫假說</h3>
+      <p class="journal-source"> · Bilateral rhythmic stimulation as a possible modulator of meningeal lymphatic flow: a regulatory T cell-centered neuroimmune hypothesis of eye movement desensitization and reprocessing.</p>
+      <p>本研究提出一個新假說，認為EMDR的雙側節律刺激可能通過改變自律神經平衡和腦膜淋巴動態來調節神經免疫相互作用，進而產生持久的治療效果。</p>
+      
+      <div class="pico-grid">
+        <div class="pico-item"><span class="pico-label">P</span><span class="pico-text">EMDR治療機制之理論研究（非直接臨床試驗）</span></div>
+        <div class="pico-item"><span class="pico-label">I</span><span class="pico-text">EMDR相關的雙側節律刺激（理論模型）</span></div>
+        <div class="pico-item"><span class="pico-label">C</span><span class="pico-text">現有認知模型（如工作記憶負荷）</span></div>
+        <div class="pico-item"><span class="pico-label">O</span><span class="pico-text">提出一個可檢驗的神經免疫作用機制假說</span></div>
+      </div>
+      <div class="card-footer">
+        <span class="tag">EMDR</span><span class="tag">神經生物學</span><span class="tag">雙側刺激</span>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/41788970/" target="_blank">閱讀原文 →</a>
+      </div>
+    </div>
+    <div class="news-card featured" data-pmid="41265021" data-doi="">
+      <div class="card-header">
+        <span class="rank-badge">#5</span>
+        <span class="emoji-icon">🦠</span>
+        <span class="utility-mid">中實用性</span>
+        
+      </div>
+      <h3>橋本氏甲狀腺炎患者接受EMDR治療的心理學與免疫學效益：隨機對照試驗的初步發現</h3>
+      <p class="journal-source"> · Psychological and immunological benefits of eye movement desensitization and reprocessing in hashimoto thyroiditis: Preliminary findings from a randomized controlled trial.</p>
+      <p>隨機對照試驗顯示，EMDR不僅顯著改善橋本氏甲狀腺炎患者的心理症狀與生活品質，還可能調節免疫標記（如降低抗甲狀腺過氧化物酶抗體水準），提示其身心共治的潛力。</p>
+      
+      <div class="pico-grid">
+        <div class="pico-item"><span class="pico-label">P</span><span class="pico-text">成年橋本氏甲狀腺炎患者</span></div>
+        <div class="pico-item"><span class="pico-label">I</span><span class="pico-text">EMDR + 治療常規</span></div>
+        <div class="pico-item"><span class="pico-label">C</span><span class="pico-text">安慰劑 + 治療常規 或 僅治療常規</span></div>
+        <div class="pico-item"><span class="pico-label">O</span><span class="pico-text">心理症狀（解離、情緒調節等）與免疫標記（抗TPO、抗TG抗體）的變化</span></div>
+      </div>
+      <div class="card-footer">
+        <span class="tag">EMDR</span><span class="tag">神經生物學</span><span class="tag">隨機對照試驗</span><span class="tag">憂鬱症</span><span class="tag">焦慮症</span>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/41265021/" target="_blank">閱讀原文 →</a>
+      </div>
+    </div>
+    <div class="news-card featured" data-pmid="40769315" data-doi="">
+      <div class="card-header">
+        <span class="rank-badge">#6</span>
+        <span class="emoji-icon">🤱</span>
+        <span class="utility-high">高實用性</span>
+        
+      </div>
+      <h3>創傷後早期EMDR治療對產後創傷經驗的療效：一項隨機臨床試驗</h3>
+      <p class="journal-source"> · Treatment of traumatic birth experience with postpartum early eye movement desensitization and reprocessing therapy: a randomized clinical trial.</p>
+      <p>隨機試驗證實，在產後早期（2-5週）提供兩次EMDR介入，能有效降低創傷性分娩經驗婦女的PTSD症狀發生率與嚴重度，並改善相關心理結果。</p>
+      
+      <div class="pico-grid">
+        <div class="pico-item"><span class="pico-label">P</span><span class="pico-text">報告有創傷性分娩經驗的產婦（產後14天內）</span></div>
+        <div class="pico-item"><span class="pico-label">I</span><span class="pico-text">產後早期EMDR治療（兩次60分鐘課程）</span></div>
+        <div class="pico-item"><span class="pico-label">C</span><span class="pico-text">照顧常規（兩次電話聯繫）</span></div>
+        <div class="pico-item"><span class="pico-label">O</span><span class="pico-text">產後9週時的PTSD症狀（自評與臨床訪談）及憂鬱、母嬰連結等次要結果</span></div>
+      </div>
+      <div class="card-footer">
+        <span class="tag">EMDR</span><span class="tag">PTSD</span><span class="tag">隨機對照試驗</span><span class="tag">悲傷輔導</span>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/40769315/" target="_blank">閱讀原文 →</a>
+      </div>
+    </div>
+    <div class="news-card featured" data-pmid="41846656" data-doi="">
+      <div class="card-header">
+        <span class="rank-badge">#7</span>
+        <span class="emoji-icon">🤝</span>
+        <span class="utility-high">高實用性</span>
+        
+      </div>
+      <h3>以EMDR為中心的理療中，治療聯盟、治療強度與症狀改變的關係：一項回顧性研究</h3>
+      <p class="journal-source"> · Therapeutic Alliance, Treatment Intensity, and Symptom Change in Post-traumatic Stress Disorder: A Retrospective Study of Eye Movement Desensitization and Reprocessing-Centered Psychotherapy.</p>
+      <p>在真實世界門診環境中，研究發現治療聯盟主要預測治療後期的症狀改善，而治療強度（總次數）則預測整體症狀減輕，兩者對EMDR療效有獨立貢獻。</p>
+      
+      <div class="pico-grid">
+        <div class="pico-item"><span class="pico-label">P</span><span class="pico-text">在單一門診診所完成EMDR為中心理療的PTSD成人患者</span></div>
+        <div class="pico-item"><span class="pico-label">I</span><span class="pico-text">EMDR為中心的理療（自然觀察）</span></div>
+        <div class="pico-item"><span class="pico-label">C</span><span class="pico-text">無直接對照組，分析內部變項關係</span></div>
+        <div class="pico-item"><span class="pico-label">O</span><span class="pico-text">PTSD症狀（PCL-5）隨時間的變化；治療聯盟（ARM-5）與治療強度</span></div>
+      </div>
+      <div class="card-footer">
+        <span class="tag">EMDR</span><span class="tag">PTSD</span>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/41846656/" target="_blank">閱讀原文 →</a>
+      </div>
+    </div></div>
+
+  <div class="section"><div class="section-title"><span class="section-icon">📚</span>其他值得關注的文獻</div>
+    <div class="news-card" data-pmid="41985390" data-doi="">
+      <div class="card-header-row">
+        <span class="emoji-sm">🚗</span>
+        <span class="utility-mid utility-sm">中</span>
+        
+      </div>
+      <h3>交通事故後的隱形痕跡：身體受傷的心理與行為後果</h3>
+      <p class="journal-source">Injury</p>
+      <p>敘述性回顧指出，交通事故倖存者可能出現多種心理反應，包括PTSD、急性壓力症、憂鬱、焦慮等，早期評估與以證據為本的介入（如TF-CBT、EMDR）至關重要。</p>
+      <div class="card-footer">
+        <span class="tag">創傷治療</span><span class="tag">PTSD</span><span class="tag">災難心理健康</span>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/41985390/" target="_blank">閱讀原文 →</a>
+      </div>
+    </div>
+    <div class="news-card" data-pmid="" data-doi="">
+      <div class="card-header-row">
+        <span class="emoji-sm">👧</span>
+        <span class="utility-mid utility-sm">中</span>
+        
+      </div>
+      <h3>EMDR對有身體虐待史青少年女性的憤怒與心理福祉的療效：一項準實驗研究</h3>
+      <p class="journal-source"></p>
+      <p>研究發現，EMDR能顯著降低有身體虐待史青少年女性的憤怒水準，並提升其心理福祉。</p>
+      <div class="card-footer">
+        <span class="tag">EMDR</span><span class="tag">兒少創傷</span><span class="tag">焦慮症</span>
+        <a href="https://doi.org/10.21203/rs.3.rs-8475740/v1" target="_blank">閱讀原文 →</a>
+      </div>
+    </div>
+    <div class="news-card" data-pmid="" data-doi="">
+      <div class="card-header-row">
+        <span class="emoji-sm">⚕️</span>
+        <span class="utility-low utility-sm">低</span>
+        
+      </div>
+      <h3>個案報告：EMDR治療女性生殖器殘割</h3>
+      <p class="journal-source"></p>
+      <p>個案報告顯示，使用修改後的EMDR協定成功治療了一例女性生殖器殘割相關的創傷與陰道疼痛問題。</p>
+      <div class="card-footer">
+        <span class="tag">EMDR</span><span class="tag">創傷治療</span><span class="tag">性侵</span>
+        <a href="https://doi.org/10.12688/f1000research.171356.1" target="_blank">閱讀原文 →</a>
+      </div>
+    </div>
+    <div class="news-card" data-pmid="" data-doi="">
+      <div class="card-header-row">
+        <span class="emoji-sm">🧠</span>
+        <span class="utility-low utility-sm">低</span>
+        
+      </div>
+      <h3>探索情緒領域的個體間變異以表征縱向設定中的典型和非典型神經反應：來自EMDR康復治療的見解</h3>
+      <p class="journal-source"></p>
+      <p>研究提出一種基於個體間變異性的fMRI分析方法，發現EMDR治療後，多發性硬化症患者的神經變異性降低，與抑鬱症狀改善相關。</p>
+      <div class="card-footer">
+        <span class="tag">EMDR</span><span class="tag">神經生物學</span><span class="tag">憂鬱症</span>
+        <a href="https://doi.org/10.21203/rs.3.rs-8375274/v1" target="_blank">閱讀原文 →</a>
+      </div>
+    </div>
+    <div class="news-card" data-pmid="" data-doi="">
+      <div class="card-header-row">
+        <span class="emoji-sm">🧒</span>
+        <span class="utility-mid utility-sm">中</span>
+        
+      </div>
+      <h3>EMDR創傷管理協定治療複雜創傷兒童青少年的療效</h3>
+      <p class="journal-source"></p>
+      <p>在肯亞進行的隨機對照試驗顯示，專為兒童青少年設計的EMDR創傷管理協定能將複雜創傷患者的PTSD症狀降低至非臨床水準。</p>
+      <div class="card-footer">
+        <span class="tag">EMDR</span><span class="tag">PTSD</span><span class="tag">隨機對照試驗</span><span class="tag">兒少創傷</span><span class="tag">複雜性PTSD</span>
+        <a href="https://doi.org/10.31234/osf.io/rksmp_v4" target="_blank">閱讀原文 →</a>
+      </div>
+    </div>
+    <div class="news-card" data-pmid="" data-doi="">
+      <div class="card-header-row">
+        <span class="emoji-sm">👨‍⚕️</span>
+        <span class="utility-mid utility-sm">中</span>
+        
+      </div>
+      <h3>EMDR對加護病房醫護人員焦慮嚴重度的影響</h3>
+      <p class="journal-source"></p>
+      <p>準實驗研究發現，EMDR介入能顯著降低ICU醫師與護理人員的焦慮水準。</p>
+      <div class="card-footer">
+        <span class="tag">EMDR</span><span class="tag">焦慮症</span>
+        <a href="https://doi.org/10.21203/rs.3.rs-7402745/v1" target="_blank">閱讀原文 →</a>
+      </div>
+    </div>
+    <div class="news-card" data-pmid="41505645" data-doi="">
+      <div class="card-header-row">
+        <span class="emoji-sm">👦</span>
+        <span class="utility-mid utility-sm">中</span>
+        
+      </div>
+      <h3>EMDR是青少年社交焦慮症的替代療法嗎？</h3>
+      <p class="journal-source"></p>
+      <p>前後對照研究顯示，經過12週EMDR治療，所有青少年的社交焦慮症狀均顯著下降並達到完全改善。</p>
+      <div class="card-footer">
+        <span class="tag">EMDR</span><span class="tag">焦慮症</span><span class="tag">兒少創傷</span>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/41505645/" target="_blank">閱讀原文 →</a>
+      </div>
+    </div>
+    <div class="news-card" data-pmid="40982818" data-doi="">
+      <div class="card-header-row">
+        <span class="emoji-sm">📚</span>
+        <span class="utility-high utility-sm">高</span>
+        
+      </div>
+      <h3>超越PTSD：EMDR目前在多種心理障礙中顯示臨床療效的現況</h3>
+      <p class="journal-source"></p>
+      <p>敘述性回顧總結了EMDR在PTSD以外多種心理障礙（如焦慮症、憂鬱症、強迫症、疼痛、成癮、人格障礙）中的療效證據。</p>
+      <div class="card-footer">
+        <span class="tag">EMDR</span><span class="tag">系統性回顧</span><span class="tag">憂鬱症</span><span class="tag">焦慮症</span><span class="tag">成癮</span><span class="tag">慢性疼痛</span>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/40982818/" target="_blank">閱讀原文 →</a>
+      </div>
+    </div>
+    <div class="news-card" data-pmid="40876652" data-doi="">
+      <div class="card-header-row">
+        <span class="emoji-sm">📊</span>
+        <span class="utility-high utility-sm">高</span>
+        
+      </div>
+      <h3>EMDR對比等待名單治療成人PTSD：隨機對照試驗的系統性回顧與後設分析</h3>
+      <p class="journal-source"></p>
+      <p>系統性回顧與後設分析顯示，與等待名單相比，EMDR可能增加PTSD診斷緩解的機率並降低症狀，但證據確定性為低至極低，長期效果尚不明確。</p>
+      <div class="card-footer">
+        <span class="tag">EMDR</span><span class="tag">PTSD</span><span class="tag">系統性回顧</span><span class="tag">隨機對照試驗</span>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/40876652/" target="_blank">閱讀原文 →</a>
+      </div>
+    </div>
+    <div class="news-card" data-pmid="40947761" data-doi="">
+      <div class="card-header-row">
+        <span class="emoji-sm">🪖</span>
+        <span class="utility-high utility-sm">高</span>
+        
+      </div>
+      <h3>社區心理健康網絡中軍事相關客戶的PTSD治療結果</h3>
+      <p class="journal-source"></p>
+      <p>大樣本回顧性研究發現，在社區心理衛生機構中，CPT、EMDR和PE三種治療對軍事相關PTSD患者均顯著有效，症狀改善程度相當。</p>
+      <div class="card-footer">
+        <span class="tag">PTSD</span><span class="tag">EMDR</span><span class="tag">創傷治療</span><span class="tag">社區心理衛生</span>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/40947761/" target="_blank">閱讀原文 →</a>
+      </div>
+    </div>
+    <div class="news-card" data-pmid="40706348" data-doi="">
+      <div class="card-header-row">
+        <span class="emoji-sm">⚡</span>
+        <span class="utility-mid utility-sm">中</span>
+        
+      </div>
+      <h3>眼動減敏後PTSD的壓力與壓力反應性：一項隨機對照試驗</h3>
+      <p class="journal-source"></p>
+      <p>隨機對照試驗發現，眼動減敏與僅記憶提取在降低PTSD患者壓力反應性方面無顯著差異，兩者均能有效減少壓力反應。</p>
+      <div class="card-footer">
+        <span class="tag">EMDR</span><span class="tag">PTSD</span><span class="tag">隨機對照試驗</span><span class="tag">神經生物學</span><span class="tag">雙側刺激</span>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/40706348/" target="_blank">閱讀原文 →</a>
+      </div>
+    </div>
+    <div class="news-card" data-pmid="40586918" data-doi="">
+      <div class="card-header-row">
+        <span class="emoji-sm">🩺</span>
+        <span class="utility-mid utility-sm">中</span>
+        
+      </div>
+      <h3>EMDR在疼痛治療中：具創傷背景慢性疼痛的潛力、機制與臨床應用</h3>
+      <p class="journal-source"></p>
+      <p>文章回顧指出，EMDR不僅能減輕與疼痛慢性化相關的心理壓力，也可能直接降低疼痛強度，是疼痛多模態管理中有前景的輔助手段。</p>
+      <div class="card-footer">
+        <span class="tag">EMDR</span><span class="tag">慢性疼痛</span><span class="tag">創傷治療</span>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/40586918/" target="_blank">閱讀原文 →</a>
+      </div>
+    </div>
+    <div class="news-card" data-pmid="41416506" data-doi="">
+      <div class="card-header-row">
+        <span class="emoji-sm">🎨</span>
+        <span class="utility-mid utility-sm">中</span>
+        
+      </div>
+      <h3>結合意象重編強化創傷導向療法（EMDR）治療兒童期虐待相關PTSD：一項個案研究</h3>
+      <p class="journal-source"></p>
+      <p>個案報告顯示，當標準EMDR治療停滯時，結合意象重編能有效促進兒童期虐待相關PTSD患者的症狀減輕與康復。</p>
+      <div class="card-footer">
+        <span class="tag">EMDR</span><span class="tag">PTSD</span><span class="tag">兒少創傷</span><span class="tag">親密伴侶暴力</span>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/41416506/" target="_blank">閱讀原文 →</a>
+      </div>
+    </div>
+    <div class="news-card" data-pmid="41699631" data-doi="">
+      <div class="card-header-row">
+        <span class="emoji-sm">🇵🇰</span>
+        <span class="utility-low utility-sm">低</span>
+        
+      </div>
+      <h3>適應並測試用於重度憂鬱症的DeprEnd EMDR療法：一項混合方法隨機對照試驗研究方案</h3>
+      <p class="journal-source"></p>
+      <p>研究方案描述了將DeprEnd EMDR協定在巴基斯坦進行文化適應，並透過隨機對照試驗測試其線上與線下模式的可行性與療效。</p>
+      <div class="card-footer">
+        <span class="tag">EMDR</span><span class="tag">憂鬱症</span><span class="tag">隨機對照試驗</span>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/41699631/" target="_blank">閱讀原文 →</a>
+      </div>
+    </div>
+    <div class="news-card" data-pmid="40743705" data-doi="">
+      <div class="card-header-row">
+        <span class="emoji-sm">💡</span>
+        <span class="utility-low utility-sm">低</span>
+        
+      </div>
+      <h3>經顱光生物調節作為接受心理治療、EMDR和/或SSRI治療患者持續焦慮和憂鬱的輔助療法：一個病例系列</h3>
+      <p class="journal-source"></p>
+      <p>病例系列初步顯示，對於傳統介入改善有限的慢性焦慮與憂鬱患者，經顱光生物調節可能是一種有效的輔助療法。</p>
+      <div class="card-footer">
+        <span class="tag">憂鬱症</span><span class="tag">焦慮症</span><span class="tag">神經生物學</span>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/40743705/" target="_blank">閱讀原文 →</a>
+      </div>
+    </div>
+    <div class="news-card" data-pmid="41640595" data-doi="">
+      <div class="card-header-row">
+        <span class="emoji-sm">🎗️</span>
+        <span class="utility-low utility-sm">低</span>
+        
+      </div>
+      <h3>B.R.E.A.S.T. 研究方案：EMDR R-TEP協定在緩解乳癌患者壓力與創傷中的效益</h3>
+      <p class="journal-source"></p>
+      <p>研究方案旨在透過隨機對照試驗，評估EMDR近期創傷事件協定（R-TEP）對乳癌手術患者心理痛苦與創傷症狀的預防性介入效果。</p>
+      <div class="card-footer">
+        <span class="tag">EMDR</span><span class="tag">隨機對照試驗</span><span class="tag">悲傷輔導</span>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/41640595/" target="_blank">閱讀原文 →</a>
+      </div>
+    </div>
+    <div class="news-card" data-pmid="41040945" data-doi="">
+      <div class="card-header-row">
+        <span class="emoji-sm">🍾</span>
+        <span class="utility-mid utility-sm">中</span>
+        
+      </div>
+      <h3>EMDR對物質使用障礙的治療效果：對成癮相關與情緒症狀的后設分析</h3>
+      <p class="journal-source"></p>
+      <p>后設分析顯示，EMDR對物質使用障礙患者的渴求、PTSD、憂鬱和焦慮症狀具有中等以上的治療效果，但對成癮嚴重度效果不顯著。</p>
+      <div class="card-footer">
+        <span class="tag">EMDR</span><span class="tag">系統性回顧</span><span class="tag">成癮</span><span class="tag">PTSD</span><span class="tag">憂鬱症</span><span class="tag">焦慮症</span>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/41040945/" target="_blank">閱讀原文 →</a>
+      </div>
+    </div>
+    <div class="news-card" data-pmid="40551815" data-doi="">
+      <div class="card-header-row">
+        <span class="emoji-sm">🌼</span>
+        <span class="utility-mid utility-sm">中</span>
+        
+      </div>
+      <h3>EMDR近期創傷事件協議預防圍產期喪失後創傷症狀的療效：一項隨機試點對照試驗</h3>
+      <p class="journal-source"></p>
+      <p>試點試驗顯示，EMDR-RTEP作為圍產期喪失後的預防介入是可行且可接受的，雖然症狀改善未達統計顯著，但患者主觀滿意度較高。</p>
+      <div class="card-footer">
+        <span class="tag">EMDR</span><span class="tag">隨機對照試驗</span><span class="tag">悲傷輔導</span>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/40551815/" target="_blank">閱讀原文 →</a>
+      </div>
+    </div>
+    <div class="news-card" data-pmid="" data-doi="">
+      <div class="card-header-row">
+        <span class="emoji-sm">🌪️</span>
+        <span class="utility-mid utility-sm">中</span>
+        
+      </div>
+      <h3>災難受影響青少年對群體EMDR療法可行性的認知：一項收斂混合方法研究</h3>
+      <p class="journal-source"></p>
+      <p>研究發現，災難受影響青少年的PTSD症狀越嚴重，對群體EMDR的可行性評分越低；而心理韌性越高，則認為介入越可接受。</p>
+      <div class="card-footer">
+        <span class="tag">EMDR</span><span class="tag">兒少創傷</span><span class="tag">災難心理健康</span><span class="tag">社區心理衛生</span>
+        <a href="https://doi.org/10.21203/rs.3.rs-7185934/v1" target="_blank">閱讀原文 →</a>
+      </div>
+    </div>
+    <div class="news-card" data-pmid="41527753" data-doi="">
+      <div class="card-header-row">
+        <span class="emoji-sm">🛡️</span>
+        <span class="utility-mid utility-sm">中</span>
+        
+      </div>
+      <h3>關於兒童青少年遭受（科技輔助）性暴力受害者心理社會照護的綜述文章 / 從創可貼到心臟手術——兒童青少年遭受（科技輔助）性暴力受害者心理社會照護一瞥</h3>
+      <p class="journal-source"></p>
+      <p>綜述指出，兒童性虐待（特別是科技輔助形式）會造成深遠的身心影響，需要分級的兒童保護、心理社會穩定和創傷專業治療（如TF-CBT、EMDR）。</p>
+      <div class="card-footer">
+        <span class="tag">創傷治療</span><span class="tag">兒少創傷</span><span class="tag">性侵</span>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/41527753/" target="_blank">閱讀原文 →</a>
+      </div>
+    </div>
+    <div class="news-card" data-pmid="40174765" data-doi="">
+      <div class="card-header-row">
+        <span class="emoji-sm">👶</span>
+        <span class="utility-low utility-sm">低</span>
+        
+      </div>
+      <h3>社論：創傷導向心理治療對兒童PTSD究竟有多有效？</h3>
+      <p class="journal-source"></p>
+      <p>社論討論了將TF-CBT和EMDR等創傷導向療法的臨床試驗結果轉化為可與臨床醫生溝通的療效估計值所面臨的挑戰。</p>
+      <div class="card-footer">
+        <span class="tag">PTSD</span><span class="tag">創傷治療</span><span class="tag">兒少創傷</span>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/40174765/" target="_blank">閱讀原文 →</a>
+      </div>
+    </div>
+    <div class="news-card" data-pmid="41236488" data-doi="">
+      <div class="card-header-row">
+        <span class="emoji-sm">🌍</span>
+        <span class="utility-high utility-sm">高</span>
+        
+      </div>
+      <h3>群體EMDR治療對強制遷徙者的適用性與療效</h3>
+      <p class="journal-source"></p>
+      <p>回顧性試點研究發現，修改後的GTEP協定對強制遷徙者（包括複雜性PTSD患者）是可行、可接受且有效的，能顯著降低PTSD與憂鬱症狀。</p>
+      <div class="card-footer">
+        <span class="tag">EMDR</span><span class="tag">PTSD</span><span class="tag">複雜性PTSD</span><span class="tag">難民心理健康</span><span class="tag">社區心理衛生</span>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/41236488/" target="_blank">閱讀原文 →</a>
+      </div>
+    </div>
+    <div class="news-card" data-pmid="41736880" data-doi="">
+      <div class="card-header-row">
+        <span class="emoji-sm">🧠</span>
+        <span class="utility-high utility-sm">高</span>
+        
+      </div>
+      <h3>複雜性創傷後壓力症的理療：療效與治療因素</h3>
+      <p class="journal-source"></p>
+      <p>敘述性回顧指出，雖然標準證據本療法能有效減少CPTSD的核心PTSD症狀，但對自我組織擾亂症狀效果較不穩定；治療聯盟、信任等關係因素對療效至關重要。</p>
+      <div class="card-footer">
+        <span class="tag">複雜性PTSD</span><span class="tag">創傷治療</span><span class="tag">系統性回顧</span>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/41736880/" target="_blank">閱讀原文 →</a>
+      </div>
+    </div>
+    <div class="news-card" data-pmid="41160015" data-doi="">
+      <div class="card-header-row">
+        <span class="emoji-sm">🧩</span>
+        <span class="utility-mid utility-sm">中</span>
+        
+      </div>
+      <h3>以圖式治療、ImRs和EMDR治療複雜性PTSD：回顧與個案研究</h3>
+      <p class="journal-source"></p>
+      <p>個案研究顯示，結合圖式治療、意象重編和EMDR的整合治療方法，能有效降低CPTSD患者的適應不良圖式與PTSD嚴重度。</p>
+      <div class="card-footer">
+        <span class="tag">複雜性PTSD</span><span class="tag">EMDR</span><span class="tag">創傷治療</span><span class="tag">親密伴侶暴力</span>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/41160015/" target="_blank">閱讀原文 →</a>
+      </div>
+    </div>
+    <div class="news-card" data-pmid="41004137" data-doi="">
+      <div class="card-header-row">
+        <span class="emoji-sm">📖</span>
+        <span class="utility-high utility-sm">高</span>
+        
+      </div>
+      <h3>PTSD與複雜性PTSD、當前治療與爭議：回顧的回顧</h3>
+      <p class="journal-source"></p>
+      <p>回顧的回顧指出，系統性回顧持續支持創傷導向心理介入（特別是TF-CBT與EMDR）的療效與成本效益，但退出率仍高，新興介入方法品質有待提升。</p>
+      <div class="card-footer">
+        <span class="tag">PTSD</span><span class="tag">複雜性PTSD</span><span class="tag">系統性回顧</span><span class="tag">創傷治療</span>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/41004137/" target="_blank">閱讀原文 →</a>
+      </div>
+    </div>
+    <div class="news-card" data-pmid="41218591" data-doi="">
+      <div class="card-header-row">
+        <span class="emoji-sm">🧩</span>
+        <span class="utility-high utility-sm">高</span>
+        
+      </div>
+      <h3>複雜性創傷後壓力症症狀的心理介入：一項系統性回顧</h3>
+      <p class="journal-source"></p>
+      <p>系統性回顧發現，現有心理介入（如TF-CBT、PE、STAIR-NET等）對CPTSD症狀有效，但針對其獨特的自我組織擾亂症狀群的介入仍有限，未來需發展更精準的治療。</p>
+      <div class="card-footer">
+        <span class="tag">複雜性PTSD</span><span class="tag">系統性回顧</span><span class="tag">創傷治療</span>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/41218591/" target="_blank">閱讀原文 →</a>
+      </div>
+    </div>
+    <div class="news-card" data-pmid="40833192" data-doi="">
+      <div class="card-header-row">
+        <span class="emoji-sm">🧘</span>
+        <span class="utility-mid utility-sm">中</span>
+        
+      </div>
+      <h3>瑜伽作為EMDR的預處理以治療兒童期虐待相關PTSD：可行性與試點研究</h3>
+      <p class="journal-source"></p>
+      <p>試點研究發現，瑜伽作為EMDR前的預處理，能改善兒童期虐待相關PTSD患者的情緒調節，降低EMDR課程中的脫落率，並提升EMDR治療的有效性。</p>
+      <div class="card-footer">
+        <span class="tag">EMDR</span><span class="tag">PTSD</span><span class="tag">兒少創傷</span><span class="tag">創傷治療</span>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/40833192/" target="_blank">閱讀原文 →</a>
+      </div>
+    </div>
+    <div class="news-card" data-pmid="41662010" data-doi="">
+      <div class="card-header-row">
+        <span class="emoji-sm">💻</span>
+        <span class="utility-mid utility-sm">中</span>
+        
+      </div>
+      <h3>勇氣、希望與轉變：患者對針對自殺意念的網路治療師導向EMDR的體驗</h3>
+      <p class="journal-source"></p>
+      <p>質性研究發現，大多數參與者認為網路EMDR治療自殺意念的整體體驗是正面的，強烈的治療關係與個性化治療是成功關鍵。</p>
+      <div class="card-footer">
+        <span class="tag">EMDR</span><span class="tag">創傷治療</span>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/41662010/" target="_blank">閱讀原文 →</a>
+      </div>
+    </div>
+    <div class="news-card" data-pmid="41949335" data-doi="">
+      <div class="card-header-row">
+        <span class="emoji-sm">🛂</span>
+        <span class="utility-mid utility-sm">中</span>
+        
+      </div>
+      <h3>將情緒調節技能訓練作為難民PTSD敘述暴露療法的輔助治療：一項試點隨機對照試驗</h3>
+      <p class="journal-source"></p>
+      <p>試點試驗顯示，對難民而言，在敘述暴露療法前輔以情緒調節技能訓練或支持性問題解決，整體療效無顯著差異，但對高不安全感者，情緒調節訓練可能帶來更大效益。</p>
+      <div class="card-footer">
+        <span class="tag">PTSD</span><span class="tag">創傷治療</span><span class="tag">隨機對照試驗</span><span class="tag">難民心理健康</span>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/41949335/" target="_blank">閱讀原文 →</a>
+      </div>
+    </div>
+    <div class="news-card" data-pmid="40579169" data-doi="">
+      <div class="card-header-row">
+        <span class="emoji-sm">🎖️</span>
+        <span class="utility-mid utility-sm">中</span>
+        
+      </div>
+      <h3>有童年創傷與戰鬥經歷史服役人員的治療反應性</h3>
+      <p class="journal-source"></p>
+      <p>次要分析發現，童年不良經驗和戰鬥暴露並不會顯著影響服役人員對協作式初級護理PTSD治療方案中症狀軌跡的反應。</p>
+      <div class="card-footer">
+        <span class="tag">PTSD</span><span class="tag">創傷治療</span>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/40579169/" target="_blank">閱讀原文 →</a>
+      </div>
+    </div>
+    <div class="news-card" data-pmid="41989416" data-doi="">
+      <div class="card-header-row">
+        <span class="emoji-sm">✨</span>
+        <span class="utility-high utility-sm">高</span>
+        
+      </div>
+      <h3>超越症狀減輕：心理福祉的改善獨特地預測認知處理療法的PTSD康復</h3>
+      <p class="journal-source"></p>
+      <p>研究發現，在CPT治療中，心理福祉（特別是自我接納與環境掌控）的提升能獨特地預測PTSD症狀的減少，支持了創傷治療中目標不僅是減輕症狀，也需促進福祉的觀點。</p>
+      <div class="card-footer">
+        <span class="tag">PTSD</span><span class="tag">創傷治療</span>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/41989416/" target="_blank">閱讀原文 →</a>
+      </div>
+    </div>
+    <div class="news-card" data-pmid="41325439" data-doi="">
+      <div class="card-header-row">
+        <span class="emoji-sm">🚶</span>
+        <span class="utility-mid utility-sm">中</span>
+        
+      </div>
+      <h3>邊走邊談：多模式動作輔助記憶減敏與再鞏固療法對退伍軍人和急救人員PTSD的隨機對照試驗</h3>
+      <p class="journal-source"></p>
+      <p>隨機對照試驗顯示，3MDR（一種結合虛擬實境與動作的多模式暴露療法）在治療退伍軍人和急救人員的PTSD方面，不劣於標準創傷導向理療。</p>
+      <div class="card-footer">
+        <span class="tag">PTSD</span><span class="tag">創傷治療</span><span class="tag">隨機對照試驗</span>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/41325439/" target="_blank">閱讀原文 →</a>
+      </div>
+    </div>
+    <div class="news-card" data-pmid="41608889" data-doi="">
+      <div class="card-header-row">
+        <span class="emoji-sm">👨‍👩‍👧</span>
+        <span class="utility-mid utility-sm">中</span>
+        
+      </div>
+      <h3>強化寄養兒童的技能：一項關於創傷知覺群體介入的描述性研究</h3>
+      <p class="journal-source"></p>
+      <p>描述性研究發現，一項針對無法或不願開始創傷治療的寄養兒童的群體介入，能提升其適應性情緒調節策略，並幫助近半數兒童隨後接受證據本創傷治療。</p>
+      <div class="card-footer">
+        <span class="tag">創傷治療</span><span class="tag">兒少創傷</span><span class="tag">社區心理衛生</span>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/41608889/" target="_blank">閱讀原文 →</a>
+      </div>
+    </div>
+    <div class="news-card" data-pmid="41953089" data-doi="">
+      <div class="card-header-row">
+        <span class="emoji-sm">🕸️</span>
+        <span class="utility-low utility-sm">低</span>
+        
+      </div>
+      <h3>反芻與PTSD症狀的關係——一項橫斷面網絡分析</h3>
+      <p class="journal-source"></p>
+      <p>網絡分析發現，反芻與PTSD的再經驗及認知情緒負面改變叢集相關聯，但與回避或過度警覺叢集無關，為理解創傷相關認知過程提供了更精細的視角。</p>
+      <div class="card-footer">
+        <span class="tag">PTSD</span>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/41953089/" target="_blank">閱讀原文 →</a>
+      </div>
+    </div>
+    <div class="news-card" data-pmid="41709421" data-doi="">
+      <div class="card-header-row">
+        <span class="emoji-sm">📝</span>
+        <span class="utility-mid utility-sm">中</span>
+        
+      </div>
+      <h3>未竟之事：對兒童期受虐相關PTSD心理動力理療數值無反應者變化的扎根理論分析</h3>
+      <p class="journal-source"></p>
+      <p>質性研究發現，被歸類為數值無反應者的患者，其變化過程可能是一種「未竟之事」，在有限的治療框架內，改善開始與新興的情緒挑戰並存。</p>
+      <div class="card-footer">
+        <span class="tag">PTSD</span><span class="tag">創傷治療</span><span class="tag">親密伴侶暴力</span><span class="tag">兒少創傷</span>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/41709421/" target="_blank">閱讀原文 →</a>
+      </div>
+    </div>
+    <div class="news-card" data-pmid="41394043" data-doi="">
+      <div class="card-header-row">
+        <span class="emoji-sm">❤️</span>
+        <span class="utility-low utility-sm">低</span>
+        
+      </div>
+      <h3>測試認知行為健康生活介入作為成人PTSD標準創傷療法輔助治療的隨機、12個月、平行組試驗方案：I-CHAT研究方案</h3>
+      <p class="journal-source"></p>
+      <p>研究方案旨在測試一項針對心血管疾病相關健康行為（活動、營養、睡眠、壓力）的介入，作為成人PTSD標準創傷療法的輔助治療，對降低其心血管疾病風險的效果。</p>
+      <div class="card-footer">
+        <span class="tag">PTSD</span><span class="tag">創傷治療</span>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/41394043/" target="_blank">閱讀原文 →</a>
+      </div>
+    </div>
+    <div class="news-card" data-pmid="40882493" data-doi="">
+      <div class="card-header-row">
+        <span class="emoji-sm">⚠️</span>
+        <span class="utility-mid utility-sm">中</span>
+        
+      </div>
+      <h3>強直性昏厥在PTSD治療再經歷創傷期間的作用</h3>
+      <p class="journal-source"></p>
+      <p>研究發現，治療前再經歷創傷時的強直性昏厥程度並不預測較差的治療後PTSD症狀，且強直性昏厥在治療後通常會下降，但部分患者可能維持高水平。</p>
+      <div class="card-footer">
+        <span class="tag">PTSD</span><span class="tag">創傷治療</span><span class="tag">解離症</span>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/40882493/" target="_blank">閱讀原文 →</a>
+      </div>
+    </div>
+    <div class="news-card" data-pmid="40949339" data-doi="">
+      <div class="card-header-row">
+        <span class="emoji-sm">👩‍⚕️</span>
+        <span class="utility-mid utility-sm">中</span>
+        
+      </div>
+      <h3>教育性但要求高：密集住院創傷治療計畫中治療師的經驗</h3>
+      <p class="journal-source"></p>
+      <p>質性研究發現，治療師認為密集創傷治療計畫雖然要求高但極具教育價值，參與其中改變了他們對創傷導向治療的態度與實踐，並認為輪替治療師可分享責任。</p>
+      <div class="card-footer">
+        <span class="tag">創傷治療</span>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/40949339/" target="_blank">閱讀原文 →</a>
+      </div>
+    </div>
+    <div class="news-card" data-pmid="40867201" data-doi="">
+      <div class="card-header-row">
+        <span class="emoji-sm">🏃</span>
+        <span class="utility-mid utility-sm">中</span>
+        
+      </div>
+      <h3>成人PTSD標準創傷療法輔助健康行為介入預試驗的初步結果</h3>
+      <p class="journal-source"></p>
+      <p>初步結果顯示，與僅接受標準創傷療法相比，加入健康行為介入（針對活動、營養、睡眠、壓力）能改善PTSD患者的睡眠效率與中等強度身體活動。</p>
+      <div class="card-footer">
+        <span class="tag">PTSD</span><span class="tag">創傷治療</span><span class="tag">隨機對照試驗</span>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/40867201/" target="_blank">閱讀原文 →</a>
+      </div>
+    </div>
+    <div class="news-card" data-pmid="39449052" data-doi="">
+      <div class="card-header-row">
+        <span class="emoji-sm">⌚</span>
+        <span class="utility-low utility-sm">低</span>
+        
+      </div>
+      <h3>EMDR治療青少年特發性關節炎甲氨蝶呤不耐受效果的持續時間可通過雙側交替觸覺刺激手環得到改善</h3>
+      <p class="journal-source"></p>
+      <p>研究發現，在使用EMDR治療青少年特發性關節炎的甲氨蝶呤不耐受時，同時使用BLAST手環能延長治療效果的持續時間。</p>
+      <div class="card-footer">
+        <span class="tag">EMDR</span><span class="tag">雙側刺激</span>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/39449052/" target="_blank">閱讀原文 →</a>
+      </div>
+    </div>
+    <div class="news-card" data-pmid="39630422" data-doi="">
+      <div class="card-header-row">
+        <span class="emoji-sm">👶</span>
+        <span class="utility-high utility-sm">高</span>
+        
+      </div>
+      <h3>兒童PTSD的心理介入：一項系統性回顧與網絡后設分析</h3>
+      <p class="journal-source"></p>
+      <p>網絡后設分析顯示，TF-CBT、EMDR、多學科治療和非創傷導向介入在減少兒童PTSD症狀方面均顯著優於被動對照組，其中TF-CBT的短期效果最大。</p>
+      <div class="card-footer">
+        <span class="tag">PTSD</span><span class="tag">EMDR</span><span class="tag">系統性回顧</span><span class="tag">兒少創傷</span><span class="tag">創傷治療</span>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/39630422/" target="_blank">閱讀原文 →</a>
+      </div>
+    </div>
+    <div class="news-card" data-pmid="40616777" data-doi="">
+      <div class="card-header-row">
+        <span class="emoji-sm">💰</span>
+        <span class="utility-high utility-sm">高</span>
+        
+      </div>
+      <h3>EMDR治療或預防成人PTSD的臨床與成本效益：一項系統性回顧與后設分析</h3>
+      <p class="journal-source"></p>
+      <p>系統性回顧與后設分析發現，EMDR在改善成人PTSD症狀方面顯著優於等待名單/常規照護，且與TF-CBT無顯著差異，一項建模研究顯示EMDR最具成本效益。</p>
+      <div class="card-footer">
+        <span class="tag">EMDR</span><span class="tag">PTSD</span><span class="tag">系統性回顧</span><span class="tag">隨機對照試驗</span>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/40616777/" target="_blank">閱讀原文 →</a>
+      </div>
+    </div></div>
+
+  <div class="topic-section section"><div class="section-title"><span class="section-icon">📊</span>主題分佈</div>
+      <div class="topic-row">
+        <span class="topic-name">EMDR</span>
+        <div class="topic-bar-bg"><div class="topic-bar" style="width:100%"></div></div>
+        <span class="topic-count">20</span>
+      </div>
+      <div class="topic-row">
+        <span class="topic-name">PTSD</span>
+        <div class="topic-bar-bg"><div class="topic-bar" style="width:75%"></div></div>
+        <span class="topic-count">15</span>
+      </div>
+      <div class="topic-row">
+        <span class="topic-name">創傷治療</span>
+        <div class="topic-bar-bg"><div class="topic-bar" style="width:50%"></div></div>
+        <span class="topic-count">10</span>
+      </div>
+      <div class="topic-row">
+        <span class="topic-name">系統性回顧</span>
+        <div class="topic-bar-bg"><div class="topic-bar" style="width:40%"></div></div>
+        <span class="topic-count">8</span>
+      </div>
+      <div class="topic-row">
+        <span class="topic-name">隨機對照試驗</span>
+        <div class="topic-bar-bg"><div class="topic-bar" style="width:60%"></div></div>
+        <span class="topic-count">12</span>
+      </div>
+      <div class="topic-row">
+        <span class="topic-name">神經生物學</span>
+        <div class="topic-bar-bg"><div class="topic-bar" style="width:20%"></div></div>
+        <span class="topic-count">4</span>
+      </div>
+      <div class="topic-row">
+        <span class="topic-name">複雜性PTSD</span>
+        <div class="topic-bar-bg"><div class="topic-bar" style="width:25%"></div></div>
+        <span class="topic-count">5</span>
+      </div>
+      <div class="topic-row">
+        <span class="topic-name">兒少創傷</span>
+        <div class="topic-bar-bg"><div class="topic-bar" style="width:30%"></div></div>
+        <span class="topic-count">6</span>
+      </div>
+      <div class="topic-row">
+        <span class="topic-name">成癮</span>
+        <div class="topic-bar-bg"><div class="topic-bar" style="width:15%"></div></div>
+        <span class="topic-count">3</span>
+      </div>
+      <div class="topic-row">
+        <span class="topic-name">憂鬱症</span>
+        <div class="topic-bar-bg"><div class="topic-bar" style="width:20%"></div></div>
+        <span class="topic-count">4</span>
+      </div>
+      <div class="topic-row">
+        <span class="topic-name">焦慮症</span>
+        <div class="topic-bar-bg"><div class="topic-bar" style="width:20%"></div></div>
+        <span class="topic-count">4</span>
+      </div>
+      <div class="topic-row">
+        <span class="topic-name">災難心理健康</span>
+        <div class="topic-bar-bg"><div class="topic-bar" style="width:15%"></div></div>
+        <span class="topic-count">3</span>
+      </div>
+      <div class="topic-row">
+        <span class="topic-name">難民心理健康</span>
+        <div class="topic-bar-bg"><div class="topic-bar" style="width:15%"></div></div>
+        <span class="topic-count">3</span>
+      </div>
+      <div class="topic-row">
+        <span class="topic-name">社區心理衛生</span>
+        <div class="topic-bar-bg"><div class="topic-bar" style="width:20%"></div></div>
+        <span class="topic-count">4</span>
+      </div></div>
+
+  <div class="keywords-section section"><div class="section-title"><span class="section-icon">🏷️</span>關鍵字</div><div class="keywords"><span class="keyword">EMDR</span><span class="keyword">PTSD</span><span class="keyword">創傷治療</span><span class="keyword">複雜性PTSD</span><span class="keyword">共病</span><span class="keyword">群體治療</span><span class="keyword">神經免疫</span><span class="keyword">機制研究</span></div></div>
+
+  <div class="clinic-banner">
+    <div class="clinic-links">
+      <a href="https://www.leepsyclinic.com/" class="clinic-link" target="_blank">
+        <span class="clinic-icon">🏥</span>
+        <span class="clinic-name">李政洋身心診所首頁</span>
+        <span class="clinic-arrow">→</span>
+      </a>
+      <a href="https://blog.leepsyclinic.com/" class="clinic-link" target="_blank">
+        <span class="clinic-icon">📬</span>
+        <span class="clinic-name">訂閱電子報</span>
+        <span class="clinic-arrow">→</span>
+      </a>
+      <a href="https://buymeacoffee.com/CYlee" class="clinic-link" target="_blank">
+        <span class="clinic-icon">☕</span>
+        <span class="clinic-name">Buy me a coffee</span>
+        <span class="clinic-arrow">→</span>
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <span>資料來源：PubMed + Europe PMC + Crossref + Semantic Scholar · 分析模型：GLM-5-Turbo</span>
+    <span><a href="https://github.com/u8901006/EMDR-mind">GitHub</a></span>
+  </footer>
+</div>
+</body>
+</html>
