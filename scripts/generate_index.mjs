@@ -80,7 +80,7 @@ function generateIndex() {
     </a>
   </div>
   <footer>
-    <p>Powered by PubMed + Zhipu AI · <a href="https://github.com/u8901006/EMDR-mind">GitHub</a></p>
+<p>Powered by PubMed + NVIDIA AI · <a href="https://github.com/u8901006/EMDR-mind">GitHub</a></p>
   </footer>
 </div>
 </body>

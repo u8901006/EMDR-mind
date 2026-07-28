@@ -5,9 +5,9 @@ import { fileURLToPath } from "node:url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, "..");
 
-const API_BASE = process.env.ZHIPU_API_BASE || "https://open.bigmodel.cn/api/coding/paas/v4";
-const MODELS = ["GLM-5-Turbo", "GLM-4.7", "GLM-4.7-Flash"];
-const MAX_TOKENS = 100000;
+const API_BASE = "https://integrate.api.nvidia.com/v1";
+const MODELS = ["nvidia/nemotron-3-super-120b-a12b", "nvidia/nemotron-3-nano-30b-a3b"];
+const MAX_TOKENS = 16384;
 const TIMEOUT_MS = 660000;
 
 const SYSTEM_PROMPT = `你是 EMDR（眼動減敏與重建）及創傷心理學領域的資深研究員與科學傳播者。你的任務是：
@@ -28,7 +28,7 @@ const SYSTEM_PROMPT = `你是 EMDR（眼動減敏與重建）及創傷心理學�
 
 function parseArgs() {
   const args = process.argv.slice(2);
-  const opts = { input: "papers.json", output: "", apiKey: process.env.ZHIPU_API_KEY || "" };
+  const opts = { input: "papers.json", output: "", apiKey: process.env.NVIDIA_API_KEY || "" };
   for (let i = 0; i < args.length; i++) {
     if (args[i] === "--input" && args[i + 1]) opts.input = args[i + 1];
     if (args[i] === "--output" && args[i + 1]) opts.output = args[i + 1];
@@ -85,7 +85,7 @@ function robustJsonParse(text) {
   }
 }
 
-async function callZhipuAPI(apiKey, papersData) {
+async function callNvidiaAPI(apiKey, papersData) {
   const dateStr = papersData.date || new Date().toISOString().split("T")[0];
   const paperCount = papersData.count || 0;
   const papersText = JSON.stringify(papersData.papers || [], null, 2);
@@ -163,9 +163,11 @@ ${papersText}
               { role: "system", content: SYSTEM_PROMPT },
               { role: "user", content: prompt },
             ],
-            temperature: 0.3,
-            top_p: 0.9,
+            temperature: 1.0,
+            top_p: 0.95,
             max_tokens: MAX_TOKENS,
+            stream: false,
+            chat_template_kwargs: { enable_thinking: false },
           }),
           signal: AbortSignal.timeout(TIMEOUT_MS),
         });
@@ -388,7 +390,7 @@ function generateHtml(analysis) {
       <div class="header-meta">
         <span class="badge badge-date">📅 ${dateDisplay}</span>
         <span class="badge badge-count">📊 ${totalCount} 篇文獻</span>
-        <span class="badge badge-source">Powered by Multi-Source + Zhipu AI</span>
+<span class="badge badge-source">Powered by Multi-Source + NVIDIA AI</span>
       </div>
     </div>
   </header>
@@ -439,7 +441,7 @@ async function main() {
   const opts = parseArgs();
 
   if (!opts.apiKey) {
-    console.error("[ERROR] No API key. Set ZHIPU_API_KEY env var or use --api-key");
+    console.error("[ERROR] No API key. Set NVIDIA_API_KEY env var or use --api-key");
     process.exit(1);
   }
 
@@ -463,7 +465,7 @@ async function main() {
       topic_distribution: {},
     };
   } else {
-    analysis = await callZhipuAPI(opts.apiKey, papersData);
+    analysis = await callNvidiaAPI(opts.apiKey, papersData);
     if (!analysis) {
       console.error("[ERROR] Analysis failed, cannot generate report");
       process.exit(1);
